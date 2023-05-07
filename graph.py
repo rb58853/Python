@@ -2,6 +2,7 @@ from show_graph import show
 class Graph:
     def __init__(self,vertices = [], edges = [], original = False):
         self.nodes = []
+        self.max_index = 0
         for weight, index in zip(vertices, range(len(vertices))):
             self.append(Node(weight, index))
 
@@ -11,6 +12,7 @@ class Graph:
         
     def append(self, node):
         node.active = True
+        self.max_index = max(self.max_index,node.index)
         self.nodes.append(node)
 
     def remove(self, node):
@@ -45,7 +47,14 @@ class Node:
         self.adjacents = {}
         self.visited_calculate_profit = False
         self.active = False
+        self.in_edge_weigth = 0
 
     def add_adj(self, duple):
         #duple es una dupla peso de la arista, referencia al vertice con el que se une
-        self.adjacents[duple[0]] = duple[1]    
+        if(not self.adjacents.__contains__(duple[0])):
+            self.adjacents[duple[0]] = duple[1]
+            self.in_edge_weigth += duple[1]     
+        
+        if(not duple[0].adjacents.__contains__(self)):
+            duple[0].adjacents[self] = duple[1]
+            duple[0].in_edge_weigth += duple[1]     

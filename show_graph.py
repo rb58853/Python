@@ -15,13 +15,14 @@ import matplotlib.pyplot as plt
 # plt.show()
 
 def show(graph):
-    vertices = []
+    vertices = [-1]*(graph.max_index+1)
     edge_data = []
 
     # G = nx.Graph([])
     for node in graph.nodes:
+        vertices[node.index] = node.weight
+        # vertices.append(node.weight)
         for adj in node.adjacents:
-            vertices.append(node.weight)
             if(adj.active):
                 edge_data.append((node.index,adj.index,node.adjacents[adj]))
     
@@ -32,8 +33,8 @@ def show_nodes (nodes:list):
     vertices = []
     edge_data = []
     for node in nodes:
+        vertices.append(node.weight)
         for adj in node.adjacents:
-            vertices.append(node.weight)
             if(nodes.__contains__(adj)):
                 edge_data.append((node.index,adj.index,node.adjacents[adj]))
     
@@ -49,9 +50,11 @@ def draw_graph(vert_weight,edge_data):
     pos = nx.spring_layout(G)
     nx.draw_networkx_nodes(G, pos)
     nx.draw_networkx_edges(G, pos)
-    nx.draw_networkx_labels(G, pos, labels={
-        node:f'{w}' for w,node in zip(vert_weight,G.nodes)
-    })
+    enum =  {
+        node:f'{node}[{w}]'
+         for node,w in list(zip(G.nodes,[x for x in vert_weight if x!=-1]))
+    }
+    nx.draw_networkx_labels(G, pos, labels=enum)
 
 
     # Crear un diccionario con los pesos de las aristas
