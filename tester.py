@@ -14,8 +14,13 @@ def start(vertices, edges):
         global_nodes.append(node)
     for node in global_nodes:
         graph.remove(node)
-        
+
+    global rec_result
+    rec_result = 0
     rec(graph,0,"")
+    
+    # global end_nodes
+    # show_nodes(end_nodes)
     return rec_result
 
 rec_result = 0
@@ -24,7 +29,7 @@ def rec(graph, index, s):
     global rec_result
     global global_nodes
     
-    print(s)
+    # print(s)
 
     graph_weight = graph.calculate_total_profit()
     if(graph_weight>rec_result):
@@ -45,6 +50,6 @@ def update_nodes(graph):
     for node in graph.nodes:
         end_nodes.append(node)
 
-print(start(vertices_1, edges_1))
-show_nodes(end_nodes)
-a = 1
+# print(start(vertices_1, edges_1))
+# show_nodes(end_nodes)
+# a = 1

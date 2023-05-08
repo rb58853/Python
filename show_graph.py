@@ -51,7 +51,7 @@ def draw_graph(vert_weight,edge_data):
     nx.draw_networkx_nodes(G, pos)
     nx.draw_networkx_edges(G, pos)
     enum =  {
-        node:f'{node}[{w}]'
+        node:f'{w}[{node}]'
          for node,w in list(zip(G.nodes,[x for x in vert_weight if x!=-1]))
     }
     nx.draw_networkx_labels(G, pos, labels=enum)

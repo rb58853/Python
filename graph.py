@@ -16,8 +16,9 @@ class Graph:
         self.nodes.append(node)
 
     def remove(self, node):
+        if(self.contains(node)): 
+            self.nodes.remove(node)
         node.active = False
-        self.nodes.remove(node)
 
     def calculate_total_profit(self):
         vertices_weight = 0
@@ -58,3 +59,8 @@ class Node:
         if(not duple[0].adjacents.__contains__(self)):
             duple[0].adjacents[self] = duple[1]
             duple[0].in_edge_weigth += duple[1]     
+    
+    def remove_adj(self, node):
+        if(self.adjacents.__contains__(node)):
+            self.in_edge_weigth -= self.adjacents[node]
+            self.adjacents.pop(node)
