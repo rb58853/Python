@@ -10,6 +10,10 @@ from test_cases import *
 #tester_result = tester.start(vertices, edges)
 ##greedy_result = greedy.start(vertices, edges)
 #flow_result = flow.solution(vertices, edges)
+# vertices = vertices_14
+# edges = edges_14
+# tester_result = tester.start(vertices, edges)
+# greedy_result = greedy.start(vertices, edges)
 
 def start(total, solution, vert_count = 5, edge_count=10):
     count_good = 0
@@ -34,7 +38,7 @@ def start(total, solution, vert_count = 5, edge_count=10):
             print( "edges:")
             print(edges)
 
-        # print( "tester: " + str(tester_result) + "    greedy:" + str(greedy_result) + is_ok)
+        print( "tester: " + str(tester_result) + "    greedy:" + str(flow_result) + is_ok)
 
     print("accuracy = "+str(count_good*100/total)+ "%" )    
 

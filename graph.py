@@ -23,9 +23,12 @@ class Graph:
     def calculate_total_profit(self):
         vertices_weight = 0
         edges_weight = 0
+        negative_vertices = 0
 
         for node in self.nodes:
             node.visited_calculate_profit = False
+            if(node.weight<0):
+                negative_vertices += node.weight
 
         for node in self.nodes:
             node.visited_calculate_profit = True
@@ -36,6 +39,8 @@ class Graph:
                     if(adj.visited_calculate_profit == False):
                         edges_weight += edge
         
+        
+        # return max(edges_weight - vertices_weight, -negative_vertices)
         return edges_weight - vertices_weight
 
     def contains(self,node):

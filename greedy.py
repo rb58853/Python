@@ -19,6 +19,7 @@ def start(vertices, edges):
             break
         
         reduce_graph(graph)
+        
         count_graph = len(graph.nodes)
         change = False
         calculate_max(graph)
@@ -38,8 +39,13 @@ def calculate_max(graph):
     positive_min_len_change = False
 
     for node in graph.nodes:
+        if(node.weight < 0):
+            continue
         temp = calculate_delete_node(graph, node)
         max_CC_from_node[node] = temp
+        
+        if(len(temp[0]) ==1 and temp[0][0].weight <temp[0][0].in_edge_weigth):
+            continue
         
         if (temp[1]>= max_of_this[1]):
             max_of_this = temp
@@ -49,6 +55,7 @@ def calculate_max(graph):
 
         if(len(temp[0]) < len(positive_min_len[0]) and temp[1]>0): 
             positive_min_len_change = True
+            change = True
             positive_min_len = temp
 
     CC = max_of_this[0]
@@ -65,15 +72,26 @@ def calculate_max(graph):
         change = False
         return
 
-    for node in max_of_this[0]:
+    for node in CC:
         graph.remove(node)
         node.active = False
         for adj in node.adjacents:
             if(not CC.__contains__(adj)):
-                adj.remove_adj(node)
+
                 if(weight < 0):
-                    new_node.add_adj([adj,0])
-                    adj.add_adj([new_node,0])
+                    new_node.weight += node.adjacents[adj]
+                    value = node.adjacents[adj]
+                    if(not new_node.adjacents.__contains__(adj)):
+                        new_node.add_adj([adj,value])
+                        adj.add_adj([new_node,value])
+                    else:
+                        new_node.adjacents[adj] += value
+                        adj.adjacents[new_node] += value
+                        new_node.in_edge_weigth += value
+                        adj.in_edge_weigth += value
+
+                
+                adj.remove_adj(node)
     
     if(weight <= 0):
         graph.append(new_node)
@@ -123,7 +141,7 @@ def reduce_graph(graph):
             temp_nodes.append(node)
 
         for node in temp_nodes:
-            if(node.in_edge_weigth < node.weight):
+            if(node.in_edge_weigth <= node.weight):
                 change = True
                 node.active = False
                 graph.remove(node)
