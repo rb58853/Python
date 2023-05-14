@@ -35,6 +35,8 @@ Sea $G(v,e)$ un grafo ponderado en vértices y aristas. Se desea encontrar el su
 
 Un grafo es **potencialmente eliminable** si al eliminar uno de sus vértices todo los demás al eliminarlos reducen el profit del grafo, eso sucede siempre en un grafo $Gi$, si tomas un vértice arbitrario de $Gi$ se puede asegurar que $Gi$ es de menor profit que el mismo por definición. Luego se puede considerar la componente $Gi$ como un solo vértice, ya que al eliminar cualquier vértice se asegura que eliminar el resto es mejor. Nótese que esto no pasa si no es irreducible dado que podría existir un conjunto del subgrafo con menor profit que el mismo. 
 
+Nótese que no es lo mismo un grafo irreducible que un grafo irreducible dependiente de un vértice.
+
 Un grafo que no posee ningun subgrafo potencialmente eliminable es optimo para el resultado del ejercicio. Notese que si esto sucede entonces para cualquier componente conexa que se elimine del grafo, el mismo pierde profit dado que no posee subgrafos que al ser eliminados mejoren el profit.
 
 **Influenciado** se refiere a que un conjunto de vértices y aristas disminuyen el profit de un conjunto más grande, lo cual implica que este conjunto grande está disminuyendo su profit por un tercero, esto implica que no puede ser potencialmente reducible.
@@ -51,7 +53,7 @@ Un grafo que no posee ningun subgrafo potencialmente eliminable es optimo para e
     **pseudoeliminación:** dejar de contar con las componentes de un vértice en un subgrafo que se analiza, de esa forma al pseudoeliminar un vértice los vértices adyacentes al mismo pierden *weight_degree* según la arista que se deje de analizar que parte del vértice dado.
     
 - El objetivo es buscar un grafo potencialmente a eliminar donde siempre se encuentre el vértice $v$, luego tras pseudoeliminar el vértice $v$ se analizan sus adyacentes en $G$, sea $a$ adyacente de $v$, si ahora el peso de $a$ es mayor que su *weight_degree* entonces evidentemente $a$ va a disminuir el profit de $Gv$, por lo tanto $a$ debe pertenecer al subgrafo $Gv$ que estamos buscando. Luego se pseudoelimina $a$.
-- Se regresa al `paso 2` pasándole el vértice $a$ como $v$. Este algoritmo se realiza a modo de BFS. mientras se encuentre un vértice potencialmente malo se repite el algoritmo. Nótese que el algoritmo a lo sumo recorre todas las aristas y vértices del grafo una sola vez, dado que se eliminan las aristas y vértices que ya se tomaron.
+- Se regresa al `punto 2` pasándole el vértice $a$ como $v$. Este algoritmo se realiza a modo de BFS. mientras se encuentre un vértice potencialmente malo se repite el algoritmo. Nótese que el algoritmo a lo sumo recorre todas las aristas y vértices del grafo una sola vez, dado que se eliminan las aristas y vértices que ya se tomaron.
 
 **Al terminar el algoritmo se garantiza que:**
 
@@ -64,7 +66,7 @@ Aplicamos el `paso 1` y el algoritmo `reduce` a todos los vértices del grafo pa
 
 ### Paso 3
 
-Una vez calculado el `paso 2` si encontramos un $Gv$ con profit negativo eliminamos el menor de los estos $Gv$ del grafo y repetimos el proceso del `paso 2`. Si no encontramos un $Gv$ con profit negativo mezclamos el $Gv$ de menor profit y cardinalidad mínima, priorizando la cardinalidad, es decir de los $Gv$ de mínima cardinalidad mezclamos el de menor profit. Esto último lo hacemos dado que $Gv$ es mínimo e irreducible y por la definición y demostración no viola nada realizar esta operación de mezcla. Dado que en cada iteración del `paso 2` se reduce el grafo a lo sumo se realiza este `paso 3` $v$ veces ya que este se repite mientras en `paso 2` se produzca un cambio, sobre la complejidad de reduce se explica en su apartado. Luego la complejidad del algoritmo es $O(V^2(|V|+|E|))$.
+Una vez calculado el `paso 2` si encontramos un $Gv$ con profit negativo eliminamos el menor(en cardinalidad y profit, priorizando cardinalidad) de los estos $Gv$ del grafo y repetimos el proceso del `paso 2`. Si no encontramos un $Gv$ con profit negativo mezclamos el $Gv$ de menor profit y cardinalidad mínima, priorizando la cardinalidad, es decir de los $Gv$ de mínima cardinalidad mezclamos el de menor profit. Esto último lo hacemos dado que $Gv$ es mínimo e irreducible y por la definición y demostración no viola nada realizar esta operación de mezcla. Dado que en cada iteración del `paso 2` se reduce el grafo a lo sumo se realiza este `paso 3` $v$ veces ya que este se repite mientras en `paso 2` se produzca un cambio, sobre la complejidad de reduce se explica en su apartado. Luego la complejidad del algoritmo es $O(V^2(|V|+|E|))$.
 
 **mezcla:** Ahora todos los vértices del grafo $Gv$ serán un solo vértice (sea ese vértice $v$) con peso igual a la suma de los vértices menos la suma de las aristas de $Gv$, donde no se incluyen las aristas que salen de $Gv$, es decir las aristas que no tienen ambos vértices incluidos en $Gv$. Se mantienen las aristas salientes de cada vértice a sus respectivos vértices fuera del subgrafo, si desde un vértice externo se llega a más de un vértice de $Gv$ la arista aumenta el peso por cada vértice al que entre según el peso de cada subarista, es decir en vez de tener $n$ aristas desde un vértice externo hacia $v$, habrá una sola arista con peso igual a la suma de todas estas.
 
