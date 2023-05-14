@@ -17,9 +17,9 @@ Sea $G(v,e)$ un grafo ponderado en vértices y aristas. Se desea encontrar el su
 
 ## Definiciones:
 
-**weight_degree:** Sea $v$ un vértice que pertenece a un grafo $G$, el weight_degree de $v$ es igual a $**\sum e.weight$ $\forall e$** que esté asociada al vértice $v$ en el grafo $G$.
+**weight_degree:** Sea $v$ un vértice que pertenece a un grafo $G$, el weight_degree de $v$ es igual a $\sum e.weight$ $\forall e$ que esté asociada al vértice $v$ en el grafo $G$.
 
-**profit:** El profit de un Grafo $G$ es el resultado de $\sum v.weight - \sum e.weight$ $\forall v,e \in G$
+**profit:** El profit de un Grafo $G$ es el resultado de $\sum e.weight - \sum v.weight$ $\forall v,e \in G$
 
 **Subgrafo de costo negativo($Gn$):** $Gn$ es un subgrafo de costo negativo de $G$ si al eliminar las componentes de $Gn$(vértices y aristas) de $G$ resulta que el profit de $G$ aumenta, es decir el profit de las componentes de $Gn$ resulta en pérdida.
 
